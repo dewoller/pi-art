@@ -16,10 +16,18 @@ class Pins:
         for pin in self.controlPins.keys():
             print pin
             GPIO.setup( pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-            GPIO.add_event_detect( pin, GPIO.BOTH, callback=self.keyEventHandler, bouncetime=200)
+            GPIO.add_event_detect( pin, GPIO.BOTH, callback=self.keyEventHandler, bouncetime=1000)
+
+    def status (self):
+        for pin in self.controlPins.keys():
+            print "pin: %s\tstatus:%s\n" %(pin, GPIO.input(pin))
 
     def keyEventHandler (self, pin):
-        print "handling button event from pin %s, number %s, currently %s\n" % (pin,  self.controlPins[ pin ], GPIO.input(pin))
+        state= GPIO.input(pin)
+        print "handling button event from pin %s, number %s, currently %s\n" % (pin,  self.controlPins[ pin ], state)
+
+        #timer.sleep(0.5)
+        #if (state== GPIO.input(pin) | state == 1):
         self.eventQueue.put( "%s|%s" % (self.controlPins[ pin ], GPIO.input(pin)))
 
 
@@ -31,5 +39,6 @@ if __name__ == "__main__":
         print(q)
         print("waiting")
         time.sleep(10)
+
     
         
