@@ -6,10 +6,12 @@ pygame.init()
 loop = 0
 esc = 0
 
-n=5
-s=[None] * 9
-for i in range(1,9):
+nSamples =4
+s=[None] * (nSamples +1)  # because arrays start at 0
+for i in range(1,nSamples+1 ):
+    print ("%s starting" % i)
     s[i]=pygame.mixer.Sound('music/0%s.ogg' % i)
+    print ("... completed")
 
 
 
@@ -40,14 +42,14 @@ while breaker == 0:
     # python curses to 'get' keyboard input
     k = stdscr.getch()
     kn = curses.keyname(k)
-    if (kn >='1') & (kn <='8'):
+    if (kn >='1') & (kn <= "%s"%nSamples ):
         i=int(kn)
         cn=pygame.mixer.Channel(i-1)
         if (cn.get_busy()) :
-            stdscr.addstr( "%s stopped" % kn )
+            stdscr.addstr( "%s stopped\n" % kn )
             cn.stop()
         else:
-            stdscr.addstr( "%s started" % kn )
+            stdscr.addstr( "%s started\n" % kn )
             cn.play( s[i] )
     # press q to quit
     elif kn=="q":
