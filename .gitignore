@@ -1,3 +1,5 @@
+*.ogg
+music/*
 *.py[cod]
 
 # C extensions
