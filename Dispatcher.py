@@ -15,21 +15,23 @@ def process( payload, s):
         s.stop(pin)
 
 
+def go():
 
-q = Queue()
-p=Pins( q )
-s= Sounds( 4 )
+    q = Queue()
+    p=Pins( q )
+    s= Sounds( 4 )
 
-while True:
-    try:
-        payload = q.get(True, 20)
-        process( payload, s)
-        p.status()
-        q.task_done()
-    except Exception as e:
-            print e
-    
+    while True:
+        try:
+            p.poll()
+            payload = q.get(True, 1)
+            process( payload, s)
+            p.status()
+            q.task_done()
+        except Exception as e:
+                print e
+        
 
-
-
+if __name__ == "__main__":
+       go()
 

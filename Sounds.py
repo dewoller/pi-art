@@ -7,7 +7,7 @@ import time
 
 class Sounds:
     def __init__(self, nSamples = 1):
-        print ("initialising\n")
+        print ("initialising")
         pygame.init()
         self.nSamples = nSamples
         self.s=[None] * (self.nSamples )  # because arrays start at 0
