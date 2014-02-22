@@ -11,7 +11,7 @@ def process( payload, s):
     (pin,status)=payload.split('|')
     pin = int(pin)
     #pdb.set_trace()
-    if status == "0":
+    if status == "1":
         s.start(pin)
     else:
         s.stop(pin)

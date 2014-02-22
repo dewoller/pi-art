@@ -20,9 +20,12 @@ class Sounds:
             logger.debug ("sound %s loading" % i)
             print ("%s starting" % i)
             self.beep(beep)
+            time.sleep(.1)
+            self.beep(beep)
             self.s[i]=pygame.mixer.Sound('%s/music/0%s.ogg' % (DIR, (i+1)))
+            self.initialise( i )
             self.beep(beep)
-            self.beep(beep)
+            time.sleep(.5)
             logger.debug ("sound %s loaded" % i)
             print ("... completed")
 
@@ -40,18 +43,20 @@ class Sounds:
         clock = pygame.time.Clock()
 
     def beep(self, s):
-        pygame.mixer.Channel(0).play(s)
-        time.sleep(.5)
+        pygame.mixer.find_channel().play(s)
+
+    def initialise(self, n):
+        cn=pygame.mixer.Channel(n)
+        cn.play( self.s[n], loops=-1)
+        cn.pause()
 
     def start(self, n):
-        cn=pygame.mixer.Channel(n)
-        if (not cn.get_busy()):
-            cn.play( self.s[n], loops=-1)
+        logger.debug("playing sound %s", n)
+        pygame.mixer.Channel(n).unpause()
 
     def stop(self, n):
-        cn=pygame.mixer.Channel(n)
-        if (cn.get_busy()) :
-            cn.stop( )
+        logger.debug("pausing sound %s", n)
+        pygame.mixer.Channel(n).pause()
 
     def quit(self):
         pygame.mixer.quit()
@@ -62,13 +67,17 @@ if __name__ == "__main__":
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     ch.setFormatter(formatter)
     logger.addHandler(ch)
-    n=8
+    n=3
     s = Sounds(n)
-    for i in range(0,n):
-        logger.debug(i)
+    for i in range(0,n-1):
         s.start(i)
-        logger.debug("playing sound ", i)
-        time.sleep(5)
+        s.start(i+1)
+        time.sleep(10)
         s.stop(i)
-        time.sleep(2)
+        time.sleep(10)
+        s.start(i)
+        time.sleep(10)
+        s.stop(i)
+        s.stop(i+1)
+        time.sleep(10)
     s.quit()
