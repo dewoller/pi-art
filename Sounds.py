@@ -28,8 +28,10 @@ class Sounds:
             time.sleep(.5)
             logger.debug ("sound %s loaded" % i)
             print ("... completed")
-        background=pygame.mixer.Sound('%s/music/background.ogg' % DIR )
-        self.background(background)
+        backgroundFilename ='%s/music/background.ogg' % DIR
+        if( os.path.isfile( backgroundFilename )):
+            background=pygame.mixer.Sound(backgroundFilename)
+            self.background(background)
 
         # set up the mixer
         freq = 44100     # audio CD quality
@@ -73,6 +75,7 @@ if __name__ == "__main__":
     ch.setFormatter(formatter)
     logger.addHandler(ch)
     n=3
+    time.sleep(10)
     s = Sounds(n)
     for i in range(0,n-1):
         s.start(i)
