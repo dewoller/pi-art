@@ -28,6 +28,8 @@ class Sounds:
             time.sleep(.5)
             logger.debug ("sound %s loaded" % i)
             print ("... completed")
+        background=pygame.mixer.Sound('%s/music/background.ogg' % DIR )
+        self.background(background)
 
         # set up the mixer
         freq = 44100     # audio CD quality
@@ -44,6 +46,9 @@ class Sounds:
 
     def beep(self, s):
         pygame.mixer.find_channel().play(s)
+
+    def background(self, s):
+        pygame.mixer.find_channel().play(s, loops=-1)
 
     def initialise(self, n):
         cn=pygame.mixer.Channel(n)
