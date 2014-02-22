@@ -1,5 +1,6 @@
 music/*
 music
+*.un~
 *.py[cod]
 
 # C extensions
