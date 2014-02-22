@@ -3,7 +3,9 @@
 import pygame
 import time
 import logging
+import os
 logger = logging.getLogger( __name__)
+DIR=os.path.dirname(os.path.realpath(__file__))
 #import curses
 
 
@@ -13,12 +15,12 @@ class Sounds:
         pygame.init()
         self.nSamples = nSamples
         self.s=[None] * (self.nSamples )  # because arrays start at 0
-        beep=pygame.mixer.Sound('Beep-sound.ogg' )
+        beep=pygame.mixer.Sound('%s/Beep-sound.ogg' % DIR )
         for i in range(0,self.nSamples ):
             logger.debug ("sound %s loading" % i)
             print ("%s starting" % i)
             self.beep(beep)
-            self.s[i]=pygame.mixer.Sound('music/0%s.ogg' % (i+1))
+            self.s[i]=pygame.mixer.Sound('%s/music/0%s.ogg' % (DIR, (i+1)))
             self.beep(beep)
             self.beep(beep)
             logger.debug ("sound %s loaded" % i)
