@@ -2,10 +2,12 @@
 from Sounds import Sounds
 from Pins import Pins
 from Queue import Queue
+import logging
+logger = logging.getLogger( __name__ )
 
 
 def process( payload, s):
-    print("processing payload %s" % payload)
+    logger.debug("processing payload %s" % payload)
     (pin,status)=payload.split('|')
     pin = int(pin)
     #pdb.set_trace()
@@ -29,7 +31,7 @@ def go():
             p.status()
             q.task_done()
         except Exception as e:
-                print e
+                pass
         
 
 if __name__ == "__main__":

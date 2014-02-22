@@ -2,19 +2,21 @@
 #import sys
 import pygame
 import time
+import logging
+logger = logging.getLogger( __name__)
 #import curses
 
 
 class Sounds:
     def __init__(self, nSamples = 1):
-        print ("initialising")
+        logger.debug ("initialising")
         pygame.init()
         self.nSamples = nSamples
         self.s=[None] * (self.nSamples )  # because arrays start at 0
         for i in range(0,self.nSamples ):
-            print ("%s starting" % i)
+            logger.debug ("sound %s loading" % i)
             self.s[i]=pygame.mixer.Sound('music/0%s.ogg' % (i+1))
-            print ("... completed")
+            logger.debug ("sound %s loaded" % i)
 
         # set up the mixer
         freq = 44100     # audio CD quality
@@ -46,9 +48,9 @@ if __name__ == "__main__":
     n=8
     s = Sounds(n)
     for i in range(0,n):
-        print(i)
+        logger.debug(i)
         s.start(i)
-        print("waiting")
+        logger.debug("playing sound ", i)
         time.sleep(5)
         s.stop(i)
         time.sleep(2)

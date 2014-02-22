@@ -4,10 +4,11 @@ if __name__ == '__main__' and __package__ is None:
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 import daemon
-import logging
 import Dispatcher
 
-logger = logging.getLogger()
+import logging
+logger = logging.getLogger( __name__ )
+
 logger.setLevel(logging.DEBUG)
 fh = logging.FileHandler("/var/log/dispatcher.txt")
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
