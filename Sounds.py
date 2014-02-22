@@ -13,10 +13,16 @@ class Sounds:
         pygame.init()
         self.nSamples = nSamples
         self.s=[None] * (self.nSamples )  # because arrays start at 0
+        beep=pygame.mixer.Sound('Beep-sound.ogg' )
         for i in range(0,self.nSamples ):
             logger.debug ("sound %s loading" % i)
+            print ("%s starting" % i)
+            self.beep(beep)
             self.s[i]=pygame.mixer.Sound('music/0%s.ogg' % (i+1))
+            self.beep(beep)
+            self.beep(beep)
             logger.debug ("sound %s loaded" % i)
+            print ("... completed")
 
         # set up the mixer
         freq = 44100     # audio CD quality
@@ -30,6 +36,10 @@ class Sounds:
 
         # starts pygame clock
         clock = pygame.time.Clock()
+
+    def beep(self, s):
+        pygame.mixer.Channel(0).play(s)
+        time.sleep(.5)
 
     def start(self, n):
         cn=pygame.mixer.Channel(n)
@@ -45,6 +55,11 @@ class Sounds:
         pygame.mixer.quit()
 
 if __name__ == "__main__":
+    logger.setLevel(logging.DEBUG)
+    ch = logging.StreamHandler()
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
     n=8
     s = Sounds(n)
     for i in range(0,n):
