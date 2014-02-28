@@ -39,7 +39,7 @@ class Sounds:
         freq = 44100     # audio CD quality
         bitsize = -16    # unsigned 16 bit
         channels = 2     # 1 is mono, 2 is stereo
-        buffer = 2048    # number of samples (experiment to get right sound)
+        buffer = 1024    # number of samples (experiment to get right sound)
         pygame.mixer.init(freq, bitsize, channels, buffer)
 
         # optional volume 0 to 1.0
@@ -63,12 +63,12 @@ class Sounds:
         cn.pause()
 
     def start(self, n):
-        if n <= self.nSamples:
+        if n < self.nSamples:
             logger.debug("playing sound %s", n)
             pygame.mixer.Channel(n).unpause()
 
     def stop(self, n):
-        if n <= self.nSamples:
+        if n < self.nSamples:
             logger.debug("pausing sound %s", n)
             pygame.mixer.Channel(n).pause()
 
