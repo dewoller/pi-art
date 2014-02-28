@@ -21,7 +21,9 @@ def go():
 
     q = Queue()
     p=Pins( q )
+    logger.debug("Loading Sounds")
     s= Sounds( 4 )
+    logger.debug("Sounds Loaded")
 
     while True:
         try:
@@ -40,6 +42,7 @@ if __name__ == "__main__":
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     ch.setFormatter(formatter)
     logger.addHandler(ch)
+    logger.debug("starting")
 
     go()
 

@@ -1,0 +1,7 @@
+ check process dispatcher with pidfile /var/run/dispatcher.pid
+   group system
+   start program = "/etc/init.d/dispatcher.sh start"
+   stop  program = "/etc/init.d/dispatcher.sh stop"
+   if 5 restarts with 5 cycles then timeout
+
+

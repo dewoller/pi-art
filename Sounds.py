@@ -29,7 +29,7 @@ class Sounds:
                 self.beep(beep)
                 time.sleep(.5)
                 logger.debug ("sound %s loaded" % i)
-            print ("... completed")
+            logger.debug ("sound file loaded")
         backgroundFilename ='%s/music/background.ogg' % DIR
         if( os.path.isfile( backgroundFilename )):
             background=pygame.mixer.Sound(backgroundFilename)
