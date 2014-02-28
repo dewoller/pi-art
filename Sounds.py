@@ -10,23 +10,25 @@ DIR=os.path.dirname(os.path.realpath(__file__))
 
 
 class Sounds:
-    def __init__(self, nSamples = 1):
+    def __init__(self, maxSamples = 1):
         logger.debug ("initialising")
         pygame.init()
-        self.nSamples = nSamples
-        self.s=[None] * (self.nSamples )  # because arrays start at 0
+        self.nSamples = 0
+        self.s=[None] * (maxSamples )  # because arrays start at 0
         beep=pygame.mixer.Sound('%s/Beep-sound.ogg' % DIR )
-        for i in range(0,self.nSamples ):
-            logger.debug ("sound %s loading" % i)
-            print ("%s starting" % i)
-            self.beep(beep)
-            time.sleep(.1)
-            self.beep(beep)
-            self.s[i]=pygame.mixer.Sound('%s/music/0%s.ogg' % (DIR, (i+1)))
-            self.initialise( i )
-            self.beep(beep)
-            time.sleep(.5)
-            logger.debug ("sound %s loaded" % i)
+        for i in range(0,maxSamples ):
+            soundFile = '%s/music/0%s.ogg' % (DIR, (i+1))
+            logger.debug ("looking for %s file" % soundFile )
+            if( os.path.isfile( soundFile )):
+                self.nSamples = self.nSamples + 1
+                self.beep(beep)
+                time.sleep(.1)
+                self.beep(beep)
+                self.s[i]=pygame.mixer.Sound(soundFile)
+                self.initialise( i )
+                self.beep(beep)
+                time.sleep(.5)
+                logger.debug ("sound %s loaded" % i)
             print ("... completed")
         backgroundFilename ='%s/music/background.ogg' % DIR
         if( os.path.isfile( backgroundFilename )):
@@ -46,6 +48,9 @@ class Sounds:
         # starts pygame clock
         clock = pygame.time.Clock()
 
+    def getNSamples(self):
+        return self.nSamples
+
     def beep(self, s):
         pygame.mixer.find_channel().play(s)
 
@@ -58,12 +63,14 @@ class Sounds:
         cn.pause()
 
     def start(self, n):
-        logger.debug("playing sound %s", n)
-        pygame.mixer.Channel(n).unpause()
+        if n <= self.nSamples:
+            logger.debug("playing sound %s", n)
+            pygame.mixer.Channel(n).unpause()
 
     def stop(self, n):
-        logger.debug("pausing sound %s", n)
-        pygame.mixer.Channel(n).pause()
+        if n <= self.nSamples:
+            logger.debug("pausing sound %s", n)
+            pygame.mixer.Channel(n).pause()
 
     def quit(self):
         pygame.mixer.quit()
